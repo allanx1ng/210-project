@@ -12,4 +12,14 @@ public class CoinTest {
         Coin.addCoin(coin1,10);
         assertEquals(10, coin1.getAmountHeld());
     }
+
+    @Test
+    public void getPriceTest() {
+        assertEquals(100, coin1.getPrice());
+    }
+
+    @Test
+    public void getNameTest() {
+        assertEquals("TestCoin", coin1.getName());
+    }
 }
