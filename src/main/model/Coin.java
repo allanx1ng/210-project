@@ -28,10 +28,7 @@ public class Coin {
     public static void addCoin(Coin c, int amount) {
         c.amountCoinHeld += amount;
     }
-
-    public Coin getCoin(Coin c) {
-        return c;
-    }
+    
 
 
 
