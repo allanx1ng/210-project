@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // This class deals with the workings of your Portfolio and the associated methods to
 // access its contents
-public class Portfolio {
+public class Portfolio implements Writable {
 
 
     private List<Coin> coinList;
@@ -27,7 +31,7 @@ public class Portfolio {
     // EFFECTS: returns the amount of coins held of this name
     public int getAmountOfCoinHeld(String name) {
         for (Coin coin : coinList) {
-            if (coin.getName() == name) {
+            if (coin.getName().equals(name)) {
                 return coin.getAmountHeld();
             }
         }
@@ -39,8 +43,8 @@ public class Portfolio {
     // EFFECTS: adds amount to the number of coins held in portfolio
     public void addCoins(String name, int amount) {
         for (Coin coin : coinList) {
-            if (coin.getName() == name) {
-                Coin.addCoin(coin, amount);
+            if (coin.getName().equals(name)) {
+                coin.addCoin(amount);
             }
         }
     }
@@ -49,7 +53,7 @@ public class Portfolio {
     // EFFECTS: returns true if the entered coin is part of Portfolio, false otherwise
     public boolean containsCoin(String name) {
         for (Coin coin : coinList) {
-            if (coin.getName() == name) {
+            if (coin.getName().equals(name)) {
                 return true;
             }
         }
@@ -58,5 +62,25 @@ public class Portfolio {
 
     public List<Coin> getCoinList() {
         return coinList;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        for (Coin c : coinList) {
+            json.put("Coins:", coinsToJson());
+        }
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray coinsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Coin c : coinList) {
+            jsonArray.put(c.toJson());
+        }
+
+        return jsonArray;
     }
 }

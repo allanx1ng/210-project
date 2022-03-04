@@ -9,7 +9,7 @@ public class CoinTest {
     // test for the method addCoin
     @Test
     public void addCoinTest() {
-        Coin.addCoin(coin1,10);
+        coin1.addCoin(10);
         assertEquals(10, coin1.getAmountHeld());
     }
 

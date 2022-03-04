@@ -1,7 +1,11 @@
 package model;
 
+
+import org.json.JSONObject;
+import persistence.Writable;
+
 // This class is has everything to do with Coins
-public class Coin {
+public class Coin implements Writable {
 
     private int coinPrice;
     private String coinName;
@@ -25,10 +29,19 @@ public class Coin {
         return amountCoinHeld;
     }
 
-    public static void addCoin(Coin c, int amount) {
-        c.amountCoinHeld += amount;
+    public void addCoin(int amount) {
+        amountCoinHeld += amount;
     }
-    
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", coinName);
+        json.put("amount held", amountCoinHeld);
+        return json;
+    }
+
 
 
 
