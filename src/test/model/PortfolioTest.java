@@ -45,6 +45,7 @@ class PortfolioTest {
         portfolio1.addCoinToList(coin2);
         assertEquals(100, portfolio1.getAmountOfCoinHeld("coin1"));
         assertEquals(1000, portfolio1.getAmountOfCoinHeld("coin2"));
+        assertEquals(0, portfolio1.getAmountOfCoinHeld("random coin"));
 
         portfolio1.getCoinList().clear();
     }

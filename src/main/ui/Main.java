@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 // The main class where all the user interactions such as buying and selling happen
-// Right now, there is a lot of code because
 public class Main {
 
     private static Portfolio portfolio;
@@ -51,19 +50,19 @@ public class Main {
                 btc.addCoin(jsonReader.getAmount("Bitcoin"));
                 portfolio.addCoinToList(btc);
                 System.out.println("BTC ADDED");
-            } else { System.out.println("No BTC in portfolio"); }
+            }
 
             if (jsonReader.findCoin("Ethereum")) {
                 eth.addCoin(jsonReader.getAmount("Ethereum"));
                 portfolio.addCoinToList(eth);
                 System.out.println("ETH ADDED");
-            } else { System.out.println("No ETH in portfolio"); }
+            }
 
             if (jsonReader.findCoin("USD")) {
                 usd.addCoin(jsonReader.getAmount("USD"));
                 portfolio.addCoinToList(usd);
                 System.out.println("USD ADDED");
-            } else { System.out.println("No USD in portfolio"); }
+            }
 
         } catch (IOException e) {
             System.out.println("Couldnt find coin");
@@ -99,6 +98,7 @@ public class Main {
         }
     }
 
+    // EFFECTS: exits the program
     private void initiateExit() {
         try {
             jsonWriter.open();
@@ -112,6 +112,7 @@ public class Main {
         System.exit(1);
     }
 
+    // EFFECTS: displays the options for users to select
     private void displayOptions() {
         System.out.println("Welcome to Cpsc 210's crypto exchange! " + "What would you like to do?");
         System.out.println("\tb -> Buy");
@@ -247,6 +248,9 @@ public class Main {
                     portfolio.addCoins(name, - nextAction);
                     System.out.println("Withdrew " + nextAction + " " + name);
                     System.out.println("Your new " + name + " balance is: " + portfolio.getAmountOfCoinHeld(name));
+                    if (portfolio.getAmountOfCoinHeld(name) == 0) {
+                        portfolio.getCoinList().remove(c);
+                    }
                 }
 
             } else {

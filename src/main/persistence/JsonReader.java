@@ -14,8 +14,9 @@ import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
 
 // Represents a reader that reads workroom from JSON data stored in file
+//Some of the code in this class was taken from the provided JSON program
 public class JsonReader {
-    private String source;
+    private static String source;
 
     // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
@@ -31,7 +32,7 @@ public class JsonReader {
     }*/
 
     // EFFECTS: reads source file as string and returns it
-    private String readFile(String source) throws IOException {
+    private static String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
@@ -44,17 +45,21 @@ public class JsonReader {
 
 
     // EFFECTS: returns true if the coin with given names exists in JSON file, false otherwise
-    public boolean findCoin(String name) throws IOException {
+    public static boolean findCoin(String name) throws IOException {
 
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        JSONArray jsonArray = jsonObject.getJSONArray("Coins:");
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("Coins:");
 
-        for (Object json : jsonArray) {
-            JSONObject nextCoin = (JSONObject) json;
-            if (nextCoin.getString("name").equals(name)) {
-                return true;
+            for (Object json : jsonArray) {
+                JSONObject nextCoin = (JSONObject) json;
+                if (nextCoin.getString("name").equals(name)) {
+                    return true;
+                }
             }
+        } catch (JSONException e) {
+            return false;
         }
         return false;
     }
