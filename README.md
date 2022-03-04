@@ -26,7 +26,7 @@ have anything to do with this program and the amount will be subtracted from the
 - As a user, I want to be able to check the balance of my portfolio (how many of each coin I have)
 
 ##User stories for phase 2:
-- As a user, I want to be able to have the option to save my portfolio when I exit the program
+- As a user, I want to autosave my portfolio when I exit the program properly
 - As a user, I want my portfolio to autoload when I open the program
 
 
