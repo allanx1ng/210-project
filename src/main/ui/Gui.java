@@ -6,6 +6,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.Buttons.Button;
 import ui.Buttons.BuyButton;
+import ui.Buttons.ExitButton;
 import ui.Buttons.SellButton;
 
 import javax.swing.*;
@@ -91,6 +92,9 @@ public class Gui extends JFrame {
 
         Button sellButton = new SellButton(this, buttonArea);
         buttons.add(sellButton);
+
+        Button exitButton = new ExitButton(this, buttonArea);
+        buttons.add(exitButton);
     }
 
 //    // MODIFIES: this
