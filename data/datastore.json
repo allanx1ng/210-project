@@ -1,1 +1,14 @@
-{}
+{"Coins:": [
+    {
+        "name": "Bitcoin",
+        "amount held": 10
+    },
+    {
+        "name": "USD",
+        "amount held": 241000
+    },
+    {
+        "name": "Ethereum",
+        "amount held": 30
+    }
+]}
