@@ -1,6 +1,7 @@
 package ui.Buttons;
 
-import ui.Gui;
+//import ui.Gui;
+import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,13 +11,13 @@ import java.awt.event.MouseEvent;
 public abstract class Button {
 
     protected JButton button;
-    protected Gui gui;
+    protected GuiTest gui;
 
-    public Button(Gui gui, JComponent parent) {
+    public Button(GuiTest gui, JComponent parent) {
         this.gui = gui;
         createButton(parent);
         addToParent(parent);
-       // addListener();
+        addListener(parent);
     }
 
     // MODIFIES: parent
@@ -28,11 +29,9 @@ public abstract class Button {
     // EFFECTS: creates button to activate tool
     protected abstract void createButton(JComponent parent);
 
-    // EFFECTS: default behaviour does nothing
-    public void mouseClickedInDrawingArea(MouseEvent e) {}
 
     //EFFECTS: Returns the string for the label.
-    protected abstract String getLabel();
+    public abstract String getLabel();
 
     // MODIFIES: this
     // EFFECTS:  customizes the button used for this tool
@@ -43,21 +42,8 @@ public abstract class Button {
         return button;
     }
 
-//    // EFFECTS: adds a listener for this tool
-//    protected void addListener() {
-//        button.addActionListener(new ButtonClickHandler());
-//    }
-
-
-//    private class ButtonClickHandler implements ActionListener {
-//
-//        // EFFECTS: sets active tool to the shape tool
-//        //          called by the framework when the tool is clicked
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            gui.performAction(this);
-//        }
-//    }
+    // EFFECTS: adds a listener for this tool
+    protected abstract void addListener(JComponent parent);
 
 
 
