@@ -10,10 +10,12 @@ import java.awt.event.ActionListener;
 public class SellBtc extends Button {
     private String label = "Sell BTC";
 
+    //EFFECTS: Constructor for button
     public SellBtc(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
+    //EFFECTS: returns the string label
     @Override
     public String getLabel() {
         return label;
@@ -28,6 +30,7 @@ public class SellBtc extends Button {
     }
 
 
+    //EFFECTS: listener for event
     @Override
     protected void addListener(JComponent parent) {
         button.addActionListener(new SellBtc.ButtonClickHandler());

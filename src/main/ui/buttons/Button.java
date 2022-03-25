@@ -10,6 +10,8 @@ public abstract class Button {
     protected JButton button;
     protected GuiTest gui;
 
+    //MODIFIES: this
+    //EFFECTS: constructs a button with parent in GUI
     public Button(GuiTest gui, JComponent parent) {
         this.gui = gui;
         createButton(parent);
@@ -23,7 +25,7 @@ public abstract class Button {
         parent.add(button);
     }
 
-    // EFFECTS: creates button to activate tool
+    // EFFECTS: creates button
     protected abstract void createButton(JComponent parent);
 
 
@@ -31,7 +33,7 @@ public abstract class Button {
     public abstract String getLabel();
 
     // MODIFIES: this
-    // EFFECTS:  customizes the button used for this tool
+    // EFFECTS:  customizes the button
     protected JButton customizeButton(JButton button) {
         button.setBorderPainted(true);
         button.setFocusPainted(true);

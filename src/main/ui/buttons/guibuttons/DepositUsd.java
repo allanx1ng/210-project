@@ -10,10 +10,12 @@ import java.awt.event.ActionListener;
 public class DepositUsd extends Button {
     private String label = "Deposit USD";
 
+    //EFFECTS: Constructor for button
     public DepositUsd(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
+    //EFFECTS: returns the string label
     @Override
     public String getLabel() {
         return label;
@@ -28,6 +30,7 @@ public class DepositUsd extends Button {
     }
 
 
+    //EFFECTS: listener for event
     @Override
     protected void addListener(JComponent parent) {
         button.addActionListener(new DepositUsd.ButtonClickHandler());

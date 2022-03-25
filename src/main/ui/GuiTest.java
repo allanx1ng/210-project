@@ -7,22 +7,25 @@ import persistence.JsonWriter;
 import ui.buttons.Button;
 import ui.buttons.guibuttons.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+// certain elements in the code were taken from the given projects this term and official java sources
 public class GuiTest extends JPanel {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
-
-    private JPanel buttonArea;
-    private JPanel buyMenu;
-    private JPanel buyCoinMenu;
+    private ImageIcon img;
+    private JLabel imgLabel;
 
     private BuyBtc buyBtc;
     private BuyEth buyEth;
@@ -57,7 +60,6 @@ public class GuiTest extends JPanel {
     private JPanel panel;
 
     private List<JComponent> itemList;
-    private List<Button> buttons;
 
     private static Portfolio portfolio;
     private static Coin btc;
@@ -65,7 +67,6 @@ public class GuiTest extends JPanel {
     private static Coin usd;
 
     private static final String JSON_STORE = "./data/datastore.json";
-    private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
@@ -82,6 +83,7 @@ public class GuiTest extends JPanel {
 
     }
 
+    //EFFECTS: loads data from JSON file
     private void readData() {
         if (!alreadyLoaded) {
             try {
@@ -113,18 +115,21 @@ public class GuiTest extends JPanel {
     }
 
 
+    // EFFECTS main method
     public static void main(String[] args) {
         new GuiTest();
     }
 
+    //EFFECTS: constructor for the class
     public GuiTest() {
 
         setCoins();
         initializeGraphics();
 
-
     }
 
+    //MODIFIES: THIS
+    //EFFECTS: constructs jframe and initialize graphics
     private void initializeGraphics() {
 
         //Create and set up the window.
@@ -138,6 +143,21 @@ public class GuiTest extends JPanel {
         portfolioValue = new JLabel("BTC: " + btc.getAmountHeld() + " ETH: " + eth.getAmountHeld()
                 + " USD: " + usd.getAmountHeld());
 
+        Image image = null;
+        
+        try {
+            image = ImageIO.read(new File("./data/BTC.png"));
+            image = image.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        img = new ImageIcon(image);
+       // img = new ImageIcon("./data/BTC.png");
+
+        imgLabel = new JLabel(img);
+        imgLabel.setSize(100,100);
+        panel.add(imgLabel);
         createButtons();
         addToList();
         addToPanel();
@@ -150,6 +170,7 @@ public class GuiTest extends JPanel {
         frame.setVisible(true);
     }
 
+    //EFFECTS: constructs the buttons and labels
     private void createButtons() {
 
         buyBtcLabel = new JLabel("Enter amount of BTC to buy");
@@ -188,12 +209,16 @@ public class GuiTest extends JPanel {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds labels and textboxes to panel
     private void addToPanel() {
         for (JComponent i : itemList) {
             panel.add(i);
         }
     }
 
+    //MODIFIES: THIS
+    //EFFECTS: adds labels and textboxes to a list
     private void addToList() {
 
         itemList = new ArrayList<>();
@@ -225,6 +250,7 @@ public class GuiTest extends JPanel {
 
     }
 
+    //EFFECTS: performs actions based on which button is pressed
     public void performAction(String s) {
         if (s.equals("Buy BTC")) {
             buy("BTC");
@@ -255,7 +281,7 @@ public class GuiTest extends JPanel {
         }
     }
 
-    // EFFECTS: takes in user input to see what coin they want to buy
+    // EFFECTS: buys the coin with name
     public void buy(String name) {
         try {
             if (name.equals("BTC")) {
@@ -272,7 +298,7 @@ public class GuiTest extends JPanel {
         }
     }
 
-    // EFFECTS: takes in user input to see what coin they want to buy
+    // EFFECTS: Sells the coin with name
     public void sell(String name) {
         try {
             if (name.equals("BTC")) {
@@ -326,6 +352,7 @@ public class GuiTest extends JPanel {
         updatePortfolioCoin();
     }
 
+    //EFFECTS: updates the textbox to display how many items are in portfolio
     private void updatePortfolioCoin() {
         portfolioValue.setText("BTC: " + btc.getAmountHeld() + " ETH: " + eth.getAmountHeld()
                 + " USD: " + usd.getAmountHeld());
@@ -381,7 +408,7 @@ public class GuiTest extends JPanel {
     }
 
     // MODIFIES: portfolio, usd
-    // EFFECTS: user inputs how much USD they want to deposit into their wallet
+    // EFFECTS: takes user inputs from text box to see how much USD they want to deposit into their wallet
     // - checks to see if USD is already a part of user's portfolio, if not, then it is added
     public void addMoney() {
 
