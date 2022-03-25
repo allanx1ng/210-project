@@ -7,10 +7,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ExitProgram extends Button {
-    private String label = "Save and Exit";
+public class Load extends Button {
+    private String label = "Load";
 
-    public ExitProgram(GuiTest gui, JComponent parent) {
+    public Load(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +23,14 @@ public class ExitProgram extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("Save and Exit");
+        button = new JButton("Load");
         //button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new ExitProgram.ButtonClickHandler());
+        button.addActionListener(new Load.ButtonClickHandler());
     }
 
 

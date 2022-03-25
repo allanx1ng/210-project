@@ -11,11 +11,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GuiTest extends JPanel implements ActionListener {
+public class GuiTest extends JPanel {
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
@@ -32,7 +34,10 @@ public class GuiTest extends JPanel implements ActionListener {
     private WithdrawUsd withdrawUsd;
     private SetPortfolioDisplayCoin setPortfolioDisplayCoin;
     private SetPortfolioDisplayUsd setPortfolioDisplayUsd;
+    private Load load;
     private ExitProgram exit;
+
+    private boolean alreadyLoaded = false;
 
     private JTextField buyBtcField;
     private JTextField sellBtcField;
@@ -77,7 +82,36 @@ public class GuiTest extends JPanel implements ActionListener {
         eth = new Coin("Ethereum", 4000, 0);
         usd = new Coin("USD", 1, 0);
 
-        // readData();
+    }
+
+    private void readData() {
+        if (!alreadyLoaded) {
+            try {
+                if (jsonReader.findCoin("Bitcoin")) {
+                    btc.addCoin(jsonReader.getAmount("Bitcoin"));
+                    portfolio.addCoinToList(btc);
+                    System.out.println("BTC ADDED");
+                }
+
+                if (jsonReader.findCoin("Ethereum")) {
+                    eth.addCoin(jsonReader.getAmount("Ethereum"));
+                    portfolio.addCoinToList(eth);
+                    System.out.println("ETH ADDED");
+                }
+
+                if (jsonReader.findCoin("USD")) {
+                    usd.addCoin(jsonReader.getAmount("USD"));
+                    portfolio.addCoinToList(usd);
+                    System.out.println("USD ADDED");
+                }
+
+            } catch (IOException e) {
+                System.out.println("Couldnt find coin");
+            }
+
+            alreadyLoaded = true;
+            updatePortfolioCoin();
+        }
     }
 
 
@@ -144,9 +178,11 @@ public class GuiTest extends JPanel implements ActionListener {
         withdrawUsdField = new JTextField();
         withdrawUsd = new WithdrawUsd(this,panel);
 
-        setPortfolioDisplayCoin = new SetPortfolioDisplayCoin(this,panel);
+        load = new Load(this,panel);
 
-        setPortfolioDisplayUsd = new SetPortfolioDisplayUsd(this,panel);
+      //  setPortfolioDisplayCoin = new SetPortfolioDisplayCoin(this,panel);
+
+      //  setPortfolioDisplayUsd = new SetPortfolioDisplayUsd(this,panel);
 
         exit = new ExitProgram(this,panel);
 
@@ -192,13 +228,81 @@ public class GuiTest extends JPanel implements ActionListener {
     }
 
     public void performAction(String s) {
-        System.out.println("deez nuts");
         if (s.equals("Buy BTC")) {
-            executeBuy("Bitcoin", btc, 1);
+            buy("BTC");
+
+        } else if (s.equals("Buy ETH")) {
+            buy("ETH");
+
+        } else if (s.equals("Sell BTC")) {
+            sell("BTC");
+
+        } else if (s.equals("Sell ETH")) {
+            sell("ETH");
+
+        } else if (s.equals("Load")) {
+            readData();
+
+        } else if (s.equals("Save and Exit")) {
+            initiateExit();
+
+        }  else if (s.equals("Withdraw USD")) {
+            executeWithdraw();
+
+        }  else if (s.equals("Deposit USD")) {
+            addMoney();
 
         } else {
             System.out.println("invalid");
         }
+    }
+
+    // EFFECTS: takes in user input to see what coin they want to buy
+    public void buy(String name) {
+        try {
+            if (name.equals("BTC")) {
+                int a = Integer.parseInt(buyBtcField.getText());
+                executeBuy("Bitcoin", btc, a);
+            } else if (name.equals("ETH")) {
+                int a = Integer.parseInt(buyEthField.getText());
+                executeBuy("Ethereum", eth, a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid input");
+        }
+    }
+
+    // EFFECTS: takes in user input to see what coin they want to buy
+    public void sell(String name) {
+        try {
+            if (name.equals("BTC")) {
+                int a = Integer.parseInt(sellBtcField.getText());
+                executeSell("Bitcoin", btc, a);
+            } else if (name.equals("ETH")) {
+                int a = Integer.parseInt(sellEthField.getText());
+                executeSell("Ethereum", eth, a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid input");
+        }
+    }
+
+    // EFFECTS: exits the program
+    private void initiateExit() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(portfolio);
+            jsonWriter.close();
+            System.out.println("Saved portfolio to " + JSON_STORE);
+            System.exit(0);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+        System.exit(1);
     }
 
     // REQUIRES: valid name of a coin, the coin itself, integer amount >=0
@@ -207,10 +311,20 @@ public class GuiTest extends JPanel implements ActionListener {
     // the user's portfolio and the equivalent value of USD is subtracted. If the user doesnt have enough USD,
     // they are told that there is insufficient USD for the transaction.
     public void executeBuy(String name, Coin c, int amount) {
-        if (!portfolio.containsCoin(name)) {
-            portfolio.addCoinToList(c);
+        if (amount >= 0) {
+
+            if (portfolio.getAmountOfCoinHeld("USD") >= amount * c.getPrice()) {
+                if (!portfolio.containsCoin(name)) {
+                    portfolio.addCoinToList(c);
+                }
+                portfolio.addCoins(name, amount);
+                portfolio.addCoins("USD",- amount * c.getPrice());
+            } else {
+                System.out.println("Not enough money");
+            }
+        } else {
+            System.out.println("Please enter a valid input");
         }
-        portfolio.addCoins(name, amount);
         updatePortfolioCoin();
     }
 
@@ -219,10 +333,76 @@ public class GuiTest extends JPanel implements ActionListener {
                 + " USD: " + usd.getAmountHeld());
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    // REQUIRES: valid coin name, the coin itself and integer amount >=0
+    // MODIFIES: portfolio, coin
+    // EFFECTS: subtracts amount*coin from portfolio and adds the equivalent value of USD to portfolio
+    // - if the new balance of selected coin is 0, it is removed from portfolio
+    private void executeSell(String name, Coin c, int amount) {
+        if (amount >= 0) {
 
+            if (portfolio.getAmountOfCoinHeld(name) >= amount) {
+                portfolio.addCoins(name, - amount);
+                portfolio.addCoins("USD", amount * c.getPrice());
+
+                if (portfolio.getAmountOfCoinHeld(name) == 0) {
+                    portfolio.getCoinList().remove(c);
+                }
+            } else {
+                System.out.println("Not enough money");
+            }
+        } else {
+            System.out.println("Please enter a valid input");
+        }
+        updatePortfolioCoin();
     }
+
+    // REQUIRES: the valid name of a coin and the actual coin
+    // MODIFIES: portfolio, coin
+    // EFFECTS: Withdraws the amount of the selected coin; if the new balance in user's portfolio of select
+    // coin is 0 then the coin is removed from portfolio
+    private void executeWithdraw() {
+
+        try {
+            int a = Integer.parseInt(withdrawUsdField.getText());
+            if (a >= 0) {
+                if (portfolio.getAmountOfCoinHeld("USD") >= a) {
+                    portfolio.addCoins("USD", - a);
+
+                    if (portfolio.getAmountOfCoinHeld("USD") == 0) {
+                        portfolio.getCoinList().remove(usd);
+                    }
+                }
+
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a positive integer");
+        }
+        updatePortfolioCoin();
+    }
+
+    // MODIFIES: portfolio, usd
+    // EFFECTS: user inputs how much USD they want to deposit into their wallet
+    // - checks to see if USD is already a part of user's portfolio, if not, then it is added
+    public void addMoney() {
+
+        try {
+            int a = Integer.parseInt(depositUsdField.getText());
+            if (a >= 0) {
+                if (!portfolio.containsCoin("USD")) {
+                    portfolio.addCoinToList(usd);
+                }
+                portfolio.addCoins("USD", a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a positive integer");
+        }
+        updatePortfolioCoin();
+    }
+
 
 
 }
