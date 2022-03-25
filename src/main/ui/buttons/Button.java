@@ -1,12 +1,9 @@
-package ui.Buttons;
+package ui.buttons;
 
 //import ui.Gui;
 import ui.GuiTest;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 
 public abstract class Button {
 

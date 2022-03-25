@@ -1,16 +1,16 @@
-package ui.Buttons.GuiTestButtons;
+package ui.buttons.guibuttons;
 
-import ui.Buttons.Button;
+import ui.buttons.Button;
 import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SetPortfolioDisplayUsd extends Button {
-    private String label = "SetPortfolioDisplayUsd";
+public class WithdrawUsd extends Button {
+    private String label = "Withdraw USD";
 
-    public SetPortfolioDisplayUsd(GuiTest gui, JComponent parent) {
+    public WithdrawUsd(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +23,14 @@ public class SetPortfolioDisplayUsd extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("SetPortfolioDisplayUsd");
+        button = new JButton("Withdraw USD");
         //button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new SetPortfolioDisplayUsd.ButtonClickHandler());
+        button.addActionListener(new WithdrawUsd.ButtonClickHandler());
     }
 
 

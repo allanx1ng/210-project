@@ -1,16 +1,16 @@
-package ui.Buttons.GuiTestButtons;
+package ui.buttons.guibuttons;
 
-import ui.Buttons.Button;
+import ui.buttons.Button;
 import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepositUsd extends Button {
-    private String label = "Deposit USD";
+public class SellEth extends Button {
+    private String label = "Sell ETH";
 
-    public DepositUsd(GuiTest gui, JComponent parent) {
+    public SellEth(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +23,14 @@ public class DepositUsd extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("Deposit USD");
+        button = new JButton("Sell ETH");
         //button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new DepositUsd.ButtonClickHandler());
+        button.addActionListener(new SellEth.ButtonClickHandler());
     }
 
 

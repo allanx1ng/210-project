@@ -1,16 +1,17 @@
-package ui.Buttons.GuiTestButtons;
+package ui.buttons.buymenu;
 
-import ui.Buttons.Button;
+import ui.buttons.Button;
 import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Load extends Button {
-    private String label = "Load";
+public class BuyBtcButton extends Button {
 
-    public Load(GuiTest gui, JComponent parent) {
+    private String label = "BuyBTC";
+
+    public BuyBtcButton(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +24,14 @@ public class Load extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("Load");
-        //button = customizeButton(button);
+        button = new JButton("BuyBTC");
+        button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new Load.ButtonClickHandler());
+        button.addActionListener(new BuyBtcButton.ButtonClickHandler());
     }
 
 
@@ -40,7 +41,7 @@ public class Load extends Button {
         //          called by the framework when the tool is clicked
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.performAction(label);
+            gui.performAction("BuyBTC");
         }
     }
 }

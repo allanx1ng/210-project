@@ -4,13 +4,11 @@ import model.Coin;
 import model.Portfolio;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.Buttons.Button;
-import ui.Buttons.GuiTestButtons.*;
+import ui.buttons.Button;
+import ui.buttons.guibuttons.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

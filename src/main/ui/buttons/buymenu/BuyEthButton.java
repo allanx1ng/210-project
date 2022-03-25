@@ -1,16 +1,17 @@
-package ui.Buttons.GuiTestButtons;
+package ui.buttons.buymenu;
 
-import ui.Buttons.Button;
+import ui.buttons.Button;
 import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SetPortfolioDisplayCoin extends Button {
-    private String label = "SetPortfolioDisplayCoin";
+public class BuyEthButton extends Button {
 
-    public SetPortfolioDisplayCoin(GuiTest gui, JComponent parent) {
+    private String label = "BuyEth";
+
+    public BuyEthButton(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +24,14 @@ public class SetPortfolioDisplayCoin extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("SetPortfolioDisplayCoin");
-        //button = customizeButton(button);
+        button = new JButton("BuyEth");
+        button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new SetPortfolioDisplayCoin.ButtonClickHandler());
+        button.addActionListener(new BuyEthButton.ButtonClickHandler());
     }
 
 
@@ -40,7 +41,7 @@ public class SetPortfolioDisplayCoin extends Button {
         //          called by the framework when the tool is clicked
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.performAction(label);
+            gui.performAction("BuyEth");
         }
     }
 }

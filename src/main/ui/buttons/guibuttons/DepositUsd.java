@@ -1,16 +1,16 @@
-package ui.Buttons.GuiTestButtons;
+package ui.buttons.guibuttons;
 
-import ui.Buttons.Button;
+import ui.buttons.Button;
 import ui.GuiTest;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ExitProgram extends Button {
-    private String label = "Save and Exit";
+public class DepositUsd extends Button {
+    private String label = "Deposit USD";
 
-    public ExitProgram(GuiTest gui, JComponent parent) {
+    public DepositUsd(GuiTest gui, JComponent parent) {
         super(gui, parent);
     }
 
@@ -23,14 +23,14 @@ public class ExitProgram extends Button {
     // EFFECTS:  creates new button and adds to parent
     @Override
     protected void createButton(JComponent parent) {
-        button = new JButton("Save and Exit");
+        button = new JButton("Deposit USD");
         //button = customizeButton(button);
     }
 
 
     @Override
     protected void addListener(JComponent parent) {
-        button.addActionListener(new ExitProgram.ButtonClickHandler());
+        button.addActionListener(new DepositUsd.ButtonClickHandler());
     }
 
 
