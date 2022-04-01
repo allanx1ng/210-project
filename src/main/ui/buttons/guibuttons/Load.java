@@ -1,7 +1,7 @@
 package ui.buttons.guibuttons;
 
 import ui.buttons.Button;
-import ui.GuiTest;
+import ui.Gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ public class Load extends Button {
     private String label = "Load";
 
     //EFFECTS: Constructor for button
-    public Load(GuiTest gui, JComponent parent) {
+    public Load(Gui gui, JComponent parent) {
         super(gui, parent);
     }
 

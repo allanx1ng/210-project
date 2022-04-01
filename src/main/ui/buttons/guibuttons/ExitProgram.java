@@ -1,7 +1,7 @@
 package ui.buttons.guibuttons;
 
 import ui.buttons.Button;
-import ui.GuiTest;
+import ui.Gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ public class ExitProgram extends Button {
     private String label = "Save and Exit";
 
     //EFFECTS: Constructor for button
-    public ExitProgram(GuiTest gui, JComponent parent) {
+    public ExitProgram(Gui gui, JComponent parent) {
         super(gui, parent);
     }
 

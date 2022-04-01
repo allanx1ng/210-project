@@ -31,3 +31,22 @@ have anything to do with this program and the amount will be subtracted from the
 
 
 An example of text with **bold** and *italic* fonts.  
+
+
+##PHASE 4 TASK 2:
+Wed Mar 30 19:02:19 PDT 2022
+Added Bitcoin to portfolio
+Wed Mar 30 19:02:19 PDT 2022
+Added Ethereum to portfolio
+Wed Mar 30 19:02:19 PDT 2022
+Added USD to portfolio
+Wed Mar 30 19:02:26 PDT 2022
+Removed Bitcoin from portfolio
+Wed Mar 30 19:02:31 PDT 2022
+Added Bitcoin to portfolio
+
+##PHASE 4 TASK 3
+The design of my project was fairly simple. There is not much in terms of complicated design 
+processes that need to be refactored. If I had more time to work on the project, I would try to 
+refactor some methods in my Main/Gui classes to introduce some more abstract elements to avoid code
+duplication.

@@ -14,7 +14,6 @@ public class Portfolio implements Writable {
 
     private List<Coin> coinList;
 
-
     // EFFECTS: Constructs a Portfolio that contains an arraylist
     public Portfolio() {
         coinList = new ArrayList<>();
@@ -25,6 +24,12 @@ public class Portfolio implements Writable {
     // EFFECTS: adds Coin to coinList
     public void addCoinToList(Coin coin) {
         coinList.add(coin);
+        EventLog.getInstance().logEvent(new Event("Added " + coin.getName() + " to portfolio"));
+    }
+
+    public void removeCoinFromList(Coin c) {
+        coinList.remove(c);
+        EventLog.getInstance().logEvent(new Event("Removed " + c.getName() + " from portfolio"));
     }
 
     // REQUIRES: valid name of a coin
@@ -83,4 +88,6 @@ public class Portfolio implements Writable {
 
         return jsonArray;
     }
+
+
 }

@@ -1,7 +1,7 @@
 package ui.buttons.guibuttons;
 
 import ui.buttons.Button;
-import ui.GuiTest;
+import ui.Gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ public class SellEth extends Button {
     private String label = "Sell ETH";
 
     //EFFECTS: Constructor for button
-    public SellEth(GuiTest gui, JComponent parent) {
+    public SellEth(Gui gui, JComponent parent) {
         super(gui, parent);
     }
 

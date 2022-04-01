@@ -1,229 +1,430 @@
-//package ui;
-//
-//import model.Coin;
-//import model.Portfolio;
-//import persistence.JsonReader;
-//import persistence.JsonWriter;
-//import ui.Buttons.*;
-//import ui.Buttons.Button;
-//import ui.Buttons.BuyMenu.BuyBtcButton;
-//import ui.Buttons.BuyMenu.BuyEthButton;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Scanner;
-//
-//public class Gui extends JFrame {
-//
-//    public static final int WIDTH = 800;
-//    public static final int HEIGHT = 800;
-//
-//    private JPanel buttonArea;
-//    private JPanel buyMenu;
-//    private JPanel buyCoinMenu;
-//
-//    private JTextField textField;
-//
-//    private JFrame frame = new JFrame();
-//    private JLayeredPane layeredPane;
-//
-//    private List<Button> buttons;
-//
-//    private static Portfolio portfolio;
-//    private static Coin btc;
-//    private static Coin eth;
-//    private static Coin usd;
-//
-//    private static final String JSON_STORE = "./data/datastore.json";
-//    private Scanner input;
-//    private JsonWriter jsonWriter;
-//    private JsonReader jsonReader;
-//
-//    // EFFECTS: initiates the different coins that the user can buy
-//    private void setCoins() {
-//
-//        portfolio = new Portfolio();
-//        jsonWriter = new JsonWriter(JSON_STORE);
-//        jsonReader = new JsonReader(JSON_STORE);
-//
-//        btc = new Coin("Bitcoin", 60000, 0);
-//        eth = new Coin("Ethereum", 4000, 0);
-//        usd = new Coin("USD", 1, 0);
-//
-//       // readData();
-//    }
-//
-//
-//    public static void main(String[] args) {
-//        new Gui();
-//    }
-//
-//    public Gui() {
-//
-//        setCoins();
-//        initializeGraphics();
-//
-//
-//    }
-//
-//    // MODIFIES: this
-//    // EFFECTS:  draws the JFrame window where this DrawingEditor will operate, and populates the tools to be used
-//    //           to manipulate this drawing
-//    private void initializeGraphics() {
-//
-//        buttons = new ArrayList<Button>();
-//
-//        frame.setLayout(new GridLayout(0,1));
-//        frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-//
-//        layeredPane = new JLayeredPane();
-//        layeredPane.setLayout(new GridLayout(0,1));
-//
-//        frame.add(layeredPane);
-//
-//        createButtons();
-//        buyMenu();
-//        buyCoinMenu();
-//        System.out.println("lolxd");
-//
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//        layeredPane.setVisible(true);
-//    }
-//
-//    private void buyCoinMenu() {
-//        buyCoinMenu = new JPanel();
-//        JLabel buyCoinLabel = new JLabel("How much would you like to buy?");
-//        buyCoinMenu.setBounds(0,0,0,0);
-//        buyCoinMenu.setSize(new Dimension(0, 0));
-//        layeredPane.add(buyCoinMenu);
-//
-//        layeredPane.add(buyCoinLabel);
-//
-//        Button buyBtcButton = new BuyBtcButton(this, buyCoinMenu);
-//        buttons.add(buyBtcButton);
-//
-//        Button buyEthButton = new BuyEthButton(this, buyCoinMenu);
-//        buttons.add(buyEthButton);
-//
-//        buyCoinMenu.setVisible(false);
-//    }
-//
-//    private void buyMenu() {
-//                //CreateBuyButtons
-//        buyMenu = new JPanel();
-//        buyMenu.setBounds(0,0,0,0);
-//        buyMenu.setSize(new Dimension(0, 0));
-//        layeredPane.add(buyMenu);
-//
-//        Button buyBtcButton = new BuyBtcButton(this, buyMenu);
-//        buttons.add(buyBtcButton);
-//
-//        Button buyEthButton = new BuyEthButton(this, buyMenu);
-//        buttons.add(buyEthButton);
-//
-//        buyMenu.setVisible(false);
-//
-//
-//    }
-//
-//    // MODIFIES: this
-//    // EFFECTS:  a helper method which declares and instantiates all tools
-//    private void createButtons() {
-//        buttonArea = new JPanel();
-//        buttonArea.setBounds(0,0,0,0);
-//        buttonArea.setSize(new Dimension(0, 0));
-//        layeredPane.add(buttonArea);
-//
-//        Button buyButton = new BuyButton(this, buttonArea);
-//        buttons.add(buyButton);
-//
-//        Button sellButton = new SellButton(this, buttonArea);
-//        buttons.add(sellButton);
-//
-//        Button exitButton = new ExitButton(this, buttonArea);
-//        buttons.add(exitButton);
-//
-//
-//
-//    }
-//
-//
-//
-//    // MODIFIES: this
-//    // EFFECTS:  sets the given tool as the activeTool
-//    public void setActiveMenu(String s) {
-//        System.out.println("deez nuts" + s);
-//        if (s == "Buy") {
-//            buttonArea.setVisible(false);
-//            buyMenu.setVisible(true);
-//
-//        } else if (s == "Sell") {
-//            buttonArea.setVisible(false);
-//        } else if (s == "Exit") {
-//            System.out.println("exiting");
-//        } else if (s == "BuyBTC") {
-//            buttonArea.setVisible(true);
-//            buyMenu.setVisible(false);
-//        } else {
-//            System.out.println("invalid");
-//        }
-//
-//    }
-//
-//    private void clearButtons() {
-//
-//    }
-//
-//
-////    // MODIFIES: this
-////    // EFFECTS:  initializes a DrawingMouseListener to be used in the JFrame
-////    private void initializeInteraction() {
-////        DrawingMouseListener dml = new DrawingMouseListener();
-////        addMouseListener(dml);
-////        addMouseMotionListener(dml);
-////    }
-////
-////
-////    // EFFECTS: if activeTool != null, then mousePressedInDrawingArea is invoked on activeTool, depends on the
-////    //          type of the tool which is currently activeTool
-////    private void handleMousePressed(MouseEvent e)  {
-////        if (activeTool != null)
-////            activeTool.mousePressedInDrawingArea(e);
-////        repaint();
-////    }
-////
-////    private class DrawingMouseListener extends MouseAdapter {
-////
-////        // EFFECTS: Forward mouse pressed event to the active tool
-////        public void mousePressed(MouseEvent e) {
-////            handleMousePressed(translateEvent(e));
-////        }
-////
-////        // EFFECTS: Forward mouse released event to the active tool
-////        public void mouseReleased(MouseEvent e) {
-////            handleMouseReleased(translateEvent(e));
-////        }
-////
-////        // EFFECTS:Forward mouse clicked event to the active tool
-////        public void mouseClicked(MouseEvent e) {
-////            handleMouseClicked(translateEvent(e));
-////        }
-////
-////        // EFFECTS:Forward mouse dragged event to the active tool
-////        public void mouseDragged(MouseEvent e) {
-////            handleMouseDragged(translateEvent(e));
-////        }
-////
-////        // EFFECTS: translates the mouse event to current drawing's coordinate system
-////        private MouseEvent translateEvent(MouseEvent e) {
-////            return SwingUtilities.convertMouseEvent(e.getComponent(), e, currentDrawing);
-////        }
-////    }
-//
-//
-//}
-//
+package ui;
+
+import model.Coin;
+import model.Event;
+import model.EventLog;
+import model.Portfolio;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import ui.buttons.Button;
+import ui.buttons.guibuttons.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+// certain elements in the code were taken from the given projects this term and official java sources
+public class Gui extends JPanel {
+
+    private ImageIcon img;
+    private JLabel imgLabel;
+
+    private Button buyBtc;
+    private Button buyEth;
+    private Button sellBtc;
+    private Button sellEth;
+    private Button depositUSD;
+    private Button withdrawUsd;
+    private Button load;
+    private Button exit;
+
+    private boolean alreadyLoaded = false;
+
+    private JTextField buyBtcField;
+    private JTextField sellBtcField;
+    private JTextField buyEthField;
+    private JTextField sellEthField;
+    private JTextField depositUsdField;
+    private JTextField withdrawUsdField;
+
+    private JLabel buyBtcLabel;
+    private JLabel sellBtcLabel;
+    private JLabel buyEthLabel;
+    private JLabel sellEthLabel;
+    private JLabel depositUsdLabel;
+    private JLabel withdrawUsdLabel;
+
+    private JLabel portfolioValue;
+
+    private JFrame frame;
+    private JPanel panel;
+
+    private List<JComponent> itemList;
+
+    private static Portfolio portfolio;
+    private static Coin btc;
+    private static Coin eth;
+    private static Coin usd;
+
+    private static final String JSON_STORE = "./data/datastore.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
+    // EFFECTS: initiates the different coins that the user can buy
+    private void setCoins() {
+
+        portfolio = new Portfolio();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        btc = new Coin("Bitcoin", 60000, 0);
+        eth = new Coin("Ethereum", 4000, 0);
+        usd = new Coin("USD", 1, 0);
+
+    }
+
+    //EFFECTS: loads data from JSON file
+    private void readData() {
+        if (!alreadyLoaded) {
+            try {
+                if (jsonReader.findCoin("Bitcoin")) {
+                    btc.addCoin(jsonReader.getAmount("Bitcoin"));
+                    portfolio.addCoinToList(btc);
+                    System.out.println("BTC ADDED");
+                }
+
+                if (jsonReader.findCoin("Ethereum")) {
+                    eth.addCoin(jsonReader.getAmount("Ethereum"));
+                    portfolio.addCoinToList(eth);
+                    System.out.println("ETH ADDED");
+                }
+
+                if (jsonReader.findCoin("USD")) {
+                    usd.addCoin(jsonReader.getAmount("USD"));
+                    portfolio.addCoinToList(usd);
+                    System.out.println("USD ADDED");
+                }
+
+            } catch (IOException e) {
+                System.out.println("Couldnt find coin");
+            }
+
+            alreadyLoaded = true;
+            updatePortfolioCoin();
+        }
+    }
+
+
+    // EFFECTS main method
+    public static void main(String[] args) {
+        new Gui();
+    }
+
+    //EFFECTS: constructor for the class
+    public Gui() {
+
+        setCoins();
+        initializeGraphics();
+
+    }
+
+    //MODIFIES: THIS
+    //EFFECTS: constructs jframe and initialize graphics
+    private void initializeGraphics() {
+
+        //Create and set up the window.
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel = new JPanel();
+        panel.setLayout(new GridLayout(0,1));
+
+
+        portfolioValue = new JLabel("BTC: " + btc.getAmountHeld() + " ETH: " + eth.getAmountHeld()
+                + " USD: " + usd.getAmountHeld());
+
+        Image image = null;
+        
+        try {
+            image = ImageIO.read(new File("./data/BTC.png"));
+            image = image.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        img = new ImageIcon(image);
+       // img = new ImageIcon("./data/BTC.png");
+
+        imgLabel = new JLabel(img);
+        imgLabel.setSize(100,100);
+        panel.add(imgLabel);
+        createButtons();
+        addToList();
+        addToPanel();
+
+
+        frame.add(panel, BorderLayout.CENTER);
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    //EFFECTS: constructs the buttons and labels
+    private void createButtons() {
+
+        buyBtcLabel = new JLabel("Enter amount of BTC to buy");
+        buyBtcField = new JTextField();
+        buyBtc = new BuyBtc(this, panel);
+
+        buyEthLabel = new JLabel("Enter amount of ETH to buy");
+        buyEthField = new JTextField();
+        buyEth = new BuyEth(this,panel);
+
+        sellBtcLabel = new JLabel("Enter amount of BTC to sell");
+        sellBtcField = new JTextField();
+        sellBtc = new SellBtc(this,panel);
+
+        sellEthLabel = new JLabel("Enter amount of ETH to sell");
+        sellEthField = new JTextField();
+        sellEth = new SellEth(this,panel);
+
+        depositUsdLabel = new JLabel("Enter amount of USD to deposit");
+        depositUsdField = new JTextField();
+        depositUSD = new DepositUsd(this,panel);
+
+        withdrawUsdLabel = new JLabel("Enter amount of USD to withdraw");
+        withdrawUsdField = new JTextField();
+        withdrawUsd = new WithdrawUsd(this,panel);
+
+        load = new Load(this,panel);
+
+        exit = new ExitProgram(this,panel);
+
+
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds labels and textboxes to panel
+    private void addToPanel() {
+        for (JComponent i : itemList) {
+            panel.add(i);
+        }
+    }
+
+    //MODIFIES: THIS
+    //EFFECTS: adds labels and textboxes to a list
+    private void addToList() {
+
+        itemList = new ArrayList<>();
+
+        itemList.add(portfolioValue);
+        itemList.add(buyBtcLabel);
+        itemList.add(buyBtcField);
+
+        itemList.add(buyEthLabel);
+        itemList.add(buyEthField);
+
+        itemList.add(sellBtcLabel);
+        itemList.add(sellBtcField);
+
+        itemList.add(sellEthLabel);
+        itemList.add(sellEthField);
+
+
+        itemList.add(depositUsdLabel);
+        itemList.add(depositUsdField);
+
+        itemList.add(withdrawUsdLabel);
+        itemList.add(withdrawUsdField);
+
+
+    }
+
+    //EFFECTS: performs actions based on which button is pressed
+    public void performAction(String s) {
+        if (s.equals("Buy BTC")) {
+            buy("BTC");
+
+        } else if (s.equals("Buy ETH")) {
+            buy("ETH");
+
+        } else if (s.equals("Sell BTC")) {
+            sell("BTC");
+
+        } else if (s.equals("Sell ETH")) {
+            sell("ETH");
+
+        } else if (s.equals("Load")) {
+            readData();
+
+        } else if (s.equals("Save and Exit")) {
+            initiateExit();
+
+        }  else if (s.equals("Withdraw USD")) {
+            executeWithdraw();
+
+        }  else if (s.equals("Deposit USD")) {
+            addMoney();
+
+        } else {
+            System.out.println("invalid");
+        }
+    }
+
+    // EFFECTS: buys the coin with name
+    public void buy(String name) {
+        try {
+            if (name.equals("BTC")) {
+                int a = Integer.parseInt(buyBtcField.getText());
+                executeBuy("Bitcoin", btc, a);
+            } else if (name.equals("ETH")) {
+                int a = Integer.parseInt(buyEthField.getText());
+                executeBuy("Ethereum", eth, a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid input");
+        }
+    }
+
+    // EFFECTS: Sells the coin with name
+    public void sell(String name) {
+        try {
+            if (name.equals("BTC")) {
+                int a = Integer.parseInt(sellBtcField.getText());
+                executeSell("Bitcoin", btc, a);
+            } else if (name.equals("ETH")) {
+                int a = Integer.parseInt(sellEthField.getText());
+                executeSell("Ethereum", eth, a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid input");
+        }
+    }
+
+    // EFFECTS: exits and saves the program
+    private void initiateExit() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(portfolio);
+            jsonWriter.close();
+            System.out.println("Saved portfolio to " + JSON_STORE);
+            printLog();
+            System.exit(0);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+        System.exit(1);
+    }
+
+    //EFFECTS: prints log
+    private void printLog() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e);
+        }
+    }
+
+
+    // REQUIRES: valid name of a coin, the coin itself, integer amount >=0
+    // MODIFIES: portfolio, coin
+    // EFFECTS: if the amount of USD is sufficient to buy amount*selected coin, amount* selected coin is added into
+    // the user's portfolio and the equivalent value of USD is subtracted. If the user doesnt have enough USD,
+    // they are told that there is insufficient USD for the transaction.
+    public void executeBuy(String name, Coin c, int amount) {
+        if (amount >= 0) {
+
+            if (portfolio.getAmountOfCoinHeld("USD") >= amount * c.getPrice()) {
+                if (!portfolio.containsCoin(name)) {
+                    portfolio.addCoinToList(c);
+                }
+                portfolio.addCoins(name, amount);
+                portfolio.addCoins("USD",- amount * c.getPrice());
+            } else {
+                System.out.println("Not enough money");
+            }
+        } else {
+            System.out.println("Please enter a valid input");
+        }
+        updatePortfolioCoin();
+    }
+
+    //EFFECTS: updates the textbox to display how many items are in portfolio
+    private void updatePortfolioCoin() {
+        portfolioValue.setText("BTC: " + btc.getAmountHeld() + " ETH: " + eth.getAmountHeld()
+                + " USD: " + usd.getAmountHeld());
+    }
+
+    // REQUIRES: valid coin name, the coin itself and integer amount >=0
+    // MODIFIES: portfolio, coin
+    // EFFECTS: subtracts amount*coin from portfolio and adds the equivalent value of USD to portfolio
+    // - if the new balance of selected coin is 0, it is removed from portfolio
+    private void executeSell(String name, Coin c, int amount) {
+        if (amount >= 0) {
+
+            if (portfolio.getAmountOfCoinHeld(name) >= amount) {
+                portfolio.addCoins(name, - amount);
+                portfolio.addCoins("USD", amount * c.getPrice());
+
+                if (portfolio.getAmountOfCoinHeld(name) == 0) {
+                    portfolio.removeCoinFromList(c);
+                }
+            } else {
+                System.out.println("Not enough money");
+            }
+        } else {
+            System.out.println("Please enter a valid input");
+        }
+        updatePortfolioCoin();
+    }
+
+    // REQUIRES: the valid name of a coin and the actual coin
+    // MODIFIES: portfolio, coin
+    // EFFECTS: Withdraws the amount of the selected coin; if the new balance in user's portfolio of select
+    // coin is 0 then the coin is removed from portfolio
+    private void executeWithdraw() {
+
+        try {
+            int a = Integer.parseInt(withdrawUsdField.getText());
+            if (a >= 0) {
+                if (portfolio.getAmountOfCoinHeld("USD") >= a) {
+                    portfolio.addCoins("USD", - a);
+
+                    if (portfolio.getAmountOfCoinHeld("USD") == 0) {
+                        portfolio.getCoinList().remove(usd);
+                    }
+                }
+
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a positive integer");
+        }
+        updatePortfolioCoin();
+    }
+
+    // MODIFIES: portfolio, usd
+    // EFFECTS: takes user inputs from text box to see how much USD they want to deposit into their wallet
+    // - checks to see if USD is already a part of user's portfolio, if not, then it is added
+    public void addMoney() {
+
+        try {
+            int a = Integer.parseInt(depositUsdField.getText());
+            if (a >= 0) {
+                if (!portfolio.containsCoin("USD")) {
+                    portfolio.addCoinToList(usd);
+                }
+                portfolio.addCoins("USD", a);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a positive integer");
+        }
+        updatePortfolioCoin();
+    }
+
+
+
+}

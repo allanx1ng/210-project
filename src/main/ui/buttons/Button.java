@@ -1,18 +1,19 @@
 package ui.buttons;
 
 //import ui.Gui;
-import ui.GuiTest;
+import ui.Gui;
 
 import javax.swing.*;
 
+// Some code in this class and its subclasses are found in drawing player.
 public abstract class Button {
 
     protected JButton button;
-    protected GuiTest gui;
+    protected Gui gui;
 
     //MODIFIES: this
     //EFFECTS: constructs a button with parent in GUI
-    public Button(GuiTest gui, JComponent parent) {
+    public Button(Gui gui, JComponent parent) {
         this.gui = gui;
         createButton(parent);
         addToParent(parent);
